@@ -23,7 +23,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.amazon.com/*"],
+      "matches": ["*://*.amazon.com/*"],
       "js": ["src/content.ts"],
       "run_at": "document_idle"
     }
