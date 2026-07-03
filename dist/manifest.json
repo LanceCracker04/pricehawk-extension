@@ -23,12 +23,13 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://www.amazon.com/*"
-      ],
       "js": [
-        "src/content.ts-loader.js"
-      ]
+        "assets/content.ts-loader-Bh-8huLd.js"
+      ],
+      "matches": [
+        "*://*.amazon.com/*"
+      ],
+      "run_at": "document_idle"
     }
   ],
   "permissions": [
@@ -42,11 +43,11 @@
   "web_accessible_resources": [
     {
       "matches": [
-        "<all_urls>"
+        "*://*.amazon.com/*"
       ],
       "resources": [
-        "**/*",
-        "*"
+        "assets/types-CnMYbanU.js",
+        "assets/content.ts-CA7yW2Ox.js"
       ],
       "use_dynamic_url": false
     }

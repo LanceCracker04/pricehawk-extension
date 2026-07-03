@@ -33,7 +33,14 @@ function readTitleFromPage(): string {
 async function trackCurrentPage(): Promise<void> {
   const asin = extractAsin(location.href);
   const price = readPriceFromPage();
-  if (!asin || price === null) return;
+
+  console.log("[PriceHawk] ASIN:", asin);
+  console.log("[PriceHawk] Price:", price);
+
+  if (!asin || price === null) {
+    console.warn("[PriceHawk] Could not track page. Missing ASIN or price.");
+    return;
+  }
 
   const title = readTitleFromPage();
   const stored = await chrome.storage.local.get(STORAGE_KEY);
@@ -46,12 +53,14 @@ async function trackCurrentPage(): Promise<void> {
     url: location.href.split("?")[0],
     currentPrice: price,
     lowestPrice: existing ? Math.min(existing.lowestPrice, price) : price,
-    currency: "USD",
+    currency: "PHP",
     lastCheckedAt: Date.now(),
   };
 
   products[asin] = updated;
   await chrome.storage.local.set({ [STORAGE_KEY]: products });
+
+  console.log("[PriceHawk] Product saved:", updated);
 
   if (existing && price < existing.currentPrice) {
     chrome.runtime.sendMessage({ type: "PRICE_DROP", product: updated });
