@@ -11,6 +11,7 @@ import {
 } from "../utils/affiliate";
 import "./popup.css";
 
+// Turns a number into a readable price string, such as PHP 99.99.
 function formatPrice(price: number, currency: string): string {
   const safeCurrency = currency === "PHP" ? "PHP" : "USD";
 
@@ -20,6 +21,7 @@ function formatPrice(price: number, currency: string): string {
   }).format(price);
 }
 
+// Converts a timestamp into a short, human-friendly date and time.
 function formatDate(timestamp: number): string {
   return new Intl.DateTimeFormat("en-PH", {
     month: "short",
@@ -29,10 +31,12 @@ function formatDate(timestamp: number): string {
   }).format(new Date(timestamp));
 }
 
+// Builds a simple Amazon product link using the product's ASIN.
 function cleanAmazonUrl(product: TrackedProduct): string {
   return `https://www.amazon.com/dp/${product.asin}`;
 }
 
+// Main popup component that shows tracked products and lets the user manage their affiliate tag.
 export function Popup() {
   const [products, setProducts] = useState<TrackedProductMap>({});
   const [tag, setTag] = useState("");
@@ -58,6 +62,7 @@ export function Popup() {
     );
   }, [products]);
 
+  // Saves the Amazon Associates tag typed by the user.
   const saveTag = async () => {
     const trimmedTag = tagInput.trim();
 
@@ -71,6 +76,7 @@ export function Popup() {
     setStatus("Affiliate tag saved.");
   };
 
+  // Removes all saved tracked products from storage.
   const clearProducts = async () => {
     await chrome.storage.local.remove(STORAGE_KEY);
     setProducts({});

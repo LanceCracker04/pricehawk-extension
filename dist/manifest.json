@@ -23,11 +23,11 @@
   },
   "content_scripts": [
     {
-      "js": [
-        "assets/content.ts-loader-Bh-8huLd.js"
-      ],
       "matches": [
         "*://*.amazon.com/*"
+      ],
+      "js": [
+        "src/content.ts-loader.js"
       ],
       "run_at": "document_idle"
     }
@@ -43,11 +43,11 @@
   "web_accessible_resources": [
     {
       "matches": [
-        "*://*.amazon.com/*"
+        "<all_urls>"
       ],
       "resources": [
-        "assets/types-CnMYbanU.js",
-        "assets/content.ts-CA7yW2Ox.js"
+        "**/*",
+        "*"
       ],
       "use_dynamic_url": false
     }

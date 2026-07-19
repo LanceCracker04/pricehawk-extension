@@ -4,9 +4,8 @@ import { STORAGE_KEY, type TrackedProduct, type TrackedProductMap } from "./type
 console.log("🔥 PRICEHAWK CONTENT SCRIPT IS RUNNING 🔥", window.location.href);
 
 /**
- * Runs on every Amazon product page. Reads the current price straight out
- * of the DOM (no API needed) and saves/updates it in chrome.storage.
- * The popup reads from the same storage to render the tracked list.
+ * Looks for the displayed price on an Amazon product page and returns it as a number.
+ * This helps the extension read the current price directly from the page.
  */
 function readPriceFromPage(): number | null {
   const selectors = [
@@ -25,11 +24,13 @@ function readPriceFromPage(): number | null {
   return null;
 }
 
+// Reads the product title from the page so the extension can show a clear name for the item.
 function readTitleFromPage(): string {
   const el = document.querySelector("#productTitle");
   return el?.textContent?.trim() ?? document.title;
 }
 
+// Collects the product info from the current page, saves it, and sends a message if the price dropped.
 async function trackCurrentPage(): Promise<void> {
   const asin = extractAsin(location.href);
   const price = readPriceFromPage();
